@@ -16,6 +16,7 @@
 #include "Random.h"
 #include "NumDisp.h"
 #include "Stone.h"
+#include "Game.h"
 
 #pragma comment(lib, "opengl32.lib")
 
@@ -30,7 +31,8 @@ namespace
 	GLFWwindow* window = nullptr;
 	auto scoreDisp = std::make_unique<NumDisp<4>>(Vec2f{ +0.5f, 0.4f });
 	auto stone = std::make_unique<Stone>(Vec2f{ 0, 0 }, Vec2f{ 0.2f, 0.2f });
-	std::unique_ptr<Stone> board[FIELD_SIZE.y][FIELD_SIZE.x];
+	std::unique_ptr<Stone> board[Game::FIELD_SIZE.y][Game::FIELD_SIZE.x];
+	std::unique_ptr<Game> game;
 	bool firstGameOver = true;
 	int scorePoint = 0;
 	GLuint stoneId;
@@ -40,14 +42,14 @@ namespace
 
 //--------------------------------------------------------------------------------
 // エラーコールバック
-void ErrorCallback2(int error, const char* description)
+void ErrorCallback(int error, const char* description)
 {
 	std::cerr << "Error Occured code: " << error << " desc: " << description << "\n";
 }
 
 //--------------------------------------------------------------------------------
 // 入力コールバック
-void KeyCallback2(GLFWwindow* window, int key, int scancode, int action, int mods)
+void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
 	if (action == GLFW_PRESS)
 	{
@@ -63,6 +65,31 @@ void KeyCallback2(GLFWwindow* window, int key, int scancode, int action, int mod
 	{
 		glfwSetWindowShouldClose(window, true);
 	}
+}
+
+void CursorPosCallBack(GLFWwindow* window, double xpos, double ypos)
+{
+	static double pastx = 0, pasty = 0;
+	if (pastx == xpos && pasty == ypos)
+	{
+		return;
+	}
+
+	std::cout << "cursor pos x: " << xpos << " y: " << ypos << "\n";
+}
+
+void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
+{
+	if (action == GLFW_PRESS)
+	{
+		input.mMouseStates[button].pressed = true;
+		std::cout << "mouse " << button << " pressed!\n";
+	}
+
+	//if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
+	//{
+
+	//}
 }
 
 #ifdef _MSC_VER
@@ -109,15 +136,7 @@ void Draw()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearDepth(1.0);
 
-	//stone->Draw(stoneId);
-
-	for (size_t i = 0; i < FIELD_SIZE.y; i++)
-	{
-		for (size_t j = 0; j < FIELD_SIZE.x; j++)
-		{
-			board[i][j]->Draw(stoneId);
-		}
-	}
+	game->Draw(stoneId);
 
 }
 
@@ -141,8 +160,10 @@ int LibInit()
 		return -1;
 	}
 
-	glfwSetErrorCallback(ErrorCallback2);
-	glfwSetKeyCallback(window, KeyCallback2);
+	glfwSetErrorCallback(ErrorCallback);
+	glfwSetKeyCallback(window, KeyCallback);
+	glfwSetCursorPosCallback(window, CursorPosCallBack);
+	glfwSetMouseButtonCallback(window, MouseButtonCallback);
 
 	// モニタとの同期
 	glfwMakeContextCurrent(window);
@@ -170,13 +191,7 @@ int main()
 	numId = LoadBmp("images/num.bmp");
 
 	// init board
-	for (size_t i = 0; i < FIELD_SIZE.y; i++)
-	{
-		for (size_t j = 0; j < FIELD_SIZE.x; j++)
-		{
-			board[i][j] = std::make_unique<Stone>(Stone::BASE_POS + Vec2f(Stone::SIZE.x / 2 * j, Stone::SIZE.y / 2 * i), Stone::SIZE);
-		}
-	}
+	game = std::make_unique<Game>();
 
 	// ゲームループ
 	while (!glfwWindowShouldClose(window))

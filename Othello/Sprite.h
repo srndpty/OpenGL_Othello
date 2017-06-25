@@ -36,6 +36,7 @@ public:
 
 	/// normal
 	// •`‰æ
+	// NOTE: linmath.h ‚ªnon-const‚Èvec4[]‚È‚Ç‚ğ—v‹‚·‚é‚Ì‚ÅA‚±‚ÌŠÖ”©‘Ì‚ğconst‚É‚Å‚«‚È‚¢
 	void Draw(int texId)
 	{
 		// ”½‰f

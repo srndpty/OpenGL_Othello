@@ -9,6 +9,7 @@
 class Stone : public Sprite<DEFAULT_VERTS_COUNT>
 {
 public:
+	// Î‚Ìí—Ş
 	enum class Type
 	{
 		Black,
@@ -21,14 +22,18 @@ public:
 	static constexpr int VERTICAL_MAX = 1;
 	static constexpr float SIDE_LENGTH = 0.15f;
 	static constexpr Vec2f SIZE = { SIDE_LENGTH, SIDE_LENGTH };
-	static constexpr Vec2f BASE_POS = { -0.5f, -0.3f };
+
+private:
+	Type type; // í—Ş
+
 
 public:
 	/// special
+	Stone();
 	Stone(Vec2f aPos, Vec2f aSize);
 	~Stone();
 
 	/// normal
-	void SetType(const int type); // í—Ş‚Ìİ’è
+	void SetType(const Type type); // í—Ş‚Ìİ’è
 };
 

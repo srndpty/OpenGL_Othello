@@ -4,6 +4,10 @@
 #include "Stone.h"
 
 
+Stone::Stone()
+{
+}
+
 //----------------------------------------
 // ctor
 Stone::Stone(Vec2f aPos, Vec2f aSize)
@@ -16,7 +20,7 @@ Stone::Stone(Vec2f aPos, Vec2f aSize)
 	size = aSize;
 
 	// âºÇ…çï
-	SetType(0);
+	SetType(Type::None);
 }
 
 //----------------------------------------
@@ -27,10 +31,10 @@ Stone::~Stone()
 
 //----------------------------------------
 // éÌóﬁÇÃê›íË
-void Stone::SetType(const int type)
+void Stone::SetType(const Type type)
 {
-	uv[0] = { 1.0f / HORIZONTAL_MAX * (type + 0), 1.0f };
-	uv[1] = { 1.0f / HORIZONTAL_MAX * (type + 1), 1.0f };
-	uv[2] = { 1.0f / HORIZONTAL_MAX * (type + 1), 0.0f };
-	uv[3] = { 1.0f / HORIZONTAL_MAX * (type + 0), 0.0f };
+	uv[0] = { 1.0f / HORIZONTAL_MAX * (static_cast<int>(type) + 0), 1.0f };
+	uv[1] = { 1.0f / HORIZONTAL_MAX * (static_cast<int>(type) + 1), 1.0f };
+	uv[2] = { 1.0f / HORIZONTAL_MAX * (static_cast<int>(type) + 1), 0.0f };
+	uv[3] = { 1.0f / HORIZONTAL_MAX * (static_cast<int>(type) + 0), 0.0f };
 }

@@ -70,6 +70,14 @@ public:
 		y += a.y;
 		return *this;
 	}
+
+	Vec2& operator=(const Vec2& a)
+	{
+		x = a.x;
+		y = a.y;
+		return *this;
+	}
+
 };
 
 // エイリアスアクセスを提供
