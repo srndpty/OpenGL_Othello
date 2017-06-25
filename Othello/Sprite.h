@@ -41,8 +41,7 @@ public:
 		// ”½‰f
 		for (size_t i = 0; i < VERTS_COUNT; i++)
 		{
-			geom[i].x = pos.x + vertex[i].x;
-			geom[i].y = pos.y + vertex[i].y;
+			geom[i] = pos + vertex[i];
 		}
 
 		mat4x4_identity(m);

@@ -153,6 +153,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Random.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="Stone.cpp" />
     <ClCompile Include="Util.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -169,6 +170,7 @@
     <ClInclude Include="Random.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Sprite.h" />
+    <ClInclude Include="Stone.h" />
     <ClInclude Include="Util.h" />
     <ClInclude Include="Vec2.h" />
     <ClInclude Include="Vec4.h" />

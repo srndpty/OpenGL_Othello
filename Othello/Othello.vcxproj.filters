@@ -25,6 +25,9 @@
     <ClCompile Include="Util.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Stone.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="glad\glad.h">
@@ -75,5 +78,6 @@
     <ClInclude Include="Def.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="Stone.h" />
   </ItemGroup>
 </Project>

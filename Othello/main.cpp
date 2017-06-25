@@ -15,6 +15,7 @@
 #include "Loader.h"
 #include "Random.h"
 #include "NumDisp.h"
+#include "Stone.h"
 
 #pragma comment(lib, "opengl32.lib")
 
@@ -24,11 +25,14 @@ Random random;
 
 namespace
 {
+	const char* GAME_TITLE = "Othello Game";
+
 	GLFWwindow* window = nullptr;
 	auto scoreDisp = std::make_unique<NumDisp<4>>(Vec2f{ +0.5f, 0.4f });
+	auto stone = std::make_unique<Stone>(Vec2f{ 0, 0 }, Vec2f{ 0.2f, 0.2f });
 	bool firstGameOver = true;
 	int scorePoint = 0;
-	GLuint minoId;
+	GLuint stoneId;
 	GLuint numId;
 }
 
@@ -104,6 +108,7 @@ void Draw()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearDepth(1.0);
 
+	stone->Draw(stoneId);
 }
 
 //--------------------------------------------------------------------------------
@@ -119,7 +124,7 @@ int LibInit()
 
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
-	window = glfwCreateWindow(WINDOW_SIZE.x, WINDOW_SIZE.y, "Tetris Game", NULL, NULL);
+	window = glfwCreateWindow(WINDOW_SIZE.x, WINDOW_SIZE.y, GAME_TITLE, NULL, NULL);
 	if (!window)
 	{
 		glfwTerminate();
@@ -149,7 +154,7 @@ int main()
 
 	shader.SetUp();
 
-	minoId = LoadBmp("images/mino.bmp");
+	stoneId = LoadBmp("images/othello.bmp");
 	numId = LoadBmp("images/num.bmp");
 
 	// ÉQÅ[ÉÄÉãÅ[Év
