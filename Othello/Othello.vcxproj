@@ -149,6 +149,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="glad\glad.c" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Random.cpp" />
@@ -158,6 +159,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Def.h" />
+    <ClInclude Include="Game.h" />
     <ClInclude Include="glad\glad.h" />
     <ClInclude Include="glad\khrplatform.h" />
     <ClInclude Include="GLFW\glfw3.h" />

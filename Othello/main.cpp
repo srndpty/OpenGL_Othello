@@ -30,6 +30,7 @@ namespace
 	GLFWwindow* window = nullptr;
 	auto scoreDisp = std::make_unique<NumDisp<4>>(Vec2f{ +0.5f, 0.4f });
 	auto stone = std::make_unique<Stone>(Vec2f{ 0, 0 }, Vec2f{ 0.2f, 0.2f });
+	std::unique_ptr<Stone> board[FIELD_SIZE.y][FIELD_SIZE.x];
 	bool firstGameOver = true;
 	int scorePoint = 0;
 	GLuint stoneId;
@@ -108,7 +109,16 @@ void Draw()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearDepth(1.0);
 
-	stone->Draw(stoneId);
+	//stone->Draw(stoneId);
+
+	for (size_t i = 0; i < FIELD_SIZE.y; i++)
+	{
+		for (size_t j = 0; j < FIELD_SIZE.x; j++)
+		{
+			board[i][j]->Draw(stoneId);
+		}
+	}
+
 }
 
 //--------------------------------------------------------------------------------
@@ -152,10 +162,21 @@ int main()
 		return -1;
 	}
 
+	// shader
 	shader.SetUp();
 
+	// load images
 	stoneId = LoadBmp("images/othello.bmp");
 	numId = LoadBmp("images/num.bmp");
+
+	// init board
+	for (size_t i = 0; i < FIELD_SIZE.y; i++)
+	{
+		for (size_t j = 0; j < FIELD_SIZE.x; j++)
+		{
+			board[i][j] = std::make_unique<Stone>(Stone::BASE_POS + Vec2f(Stone::SIZE.x / 2 * j, Stone::SIZE.y / 2 * i), Stone::SIZE);
+		}
+	}
 
 	// ÉQÅ[ÉÄÉãÅ[Év
 	while (!glfwWindowShouldClose(window))
