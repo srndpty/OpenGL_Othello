@@ -75,6 +75,7 @@ void CursorPosCallBack(GLFWwindow* window, double xpos, double ypos)
 		return;
 	}
 
+	input.mCursorPos = { static_cast<int>(xpos), static_cast<int>(ypos) };
 	std::cout << "cursor pos x: " << xpos << " y: " << ypos << "\n";
 }
 
@@ -83,7 +84,7 @@ void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
 	if (action == GLFW_PRESS)
 	{
 		input.mMouseStates[button].pressed = true;
-		std::cout << "mouse " << button << " pressed!\n";
+		//std::cout << "mouse " << button << " pressed!\n";
 	}
 
 	//if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)

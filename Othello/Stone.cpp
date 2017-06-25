@@ -10,15 +10,9 @@ Stone::Stone()
 
 //----------------------------------------
 // ctor
-Stone::Stone(Vec2f aPos, Vec2f aSize)
+Stone::Stone(const Vec2f& aPos, const Vec2f& aSize)
+	: Sprite(aPos, aSize)
 {
-	vertex[0] = geom[0] = { -aSize.x / 2, +aSize.y / 2 };
-	vertex[1] = geom[1] = { +aSize.x / 2, +aSize.y / 2 };
-	vertex[2] = geom[2] = { +aSize.x / 2, -aSize.y / 2 };
-	vertex[3] = geom[3] = { -aSize.x / 2, -aSize.y / 2 };
-	pos = aPos;
-	size = aSize;
-
 	// âºÇ…çï
 	SetType(Type::None);
 }

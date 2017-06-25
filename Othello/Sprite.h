@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include <iostream>
+
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
 #include "Vec2.h"
@@ -22,6 +24,19 @@ public:
 	// default ctor
 	Sprite()
 	{
+		std::cout << "default constructor of Sprite called. this shouldn't be happened!\n";
+		SHOULD_NOT_REACH_HERE();
+	}
+
+	Sprite(const Vec2f& aPos, const Vec2f& aSize)
+		: pos(aPos)
+		, size(aSize)
+	{
+		vertex[0] = geom[0] = { -aSize.x / 2, +aSize.y / 2 };
+		vertex[1] = geom[1] = { +aSize.x / 2, +aSize.y / 2 };
+		vertex[2] = geom[2] = { +aSize.x / 2, -aSize.y / 2 };
+		vertex[3] = geom[3] = { -aSize.x / 2, -aSize.y / 2 };
+
 		SetColor({ 1.0f, 1.0f, 1.0f, 1.0f });
 	}
 

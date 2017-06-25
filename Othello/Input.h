@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include "Vec2.h"
+
 // キーの状態
 struct State
 {
@@ -17,6 +19,12 @@ public:
 	static constexpr int KEY_MAX = 512;
 	static constexpr int MOUSE_MAX = 16;
 
+public:
+	State mKeyStates[KEY_MAX];
+	State mMouseStates[MOUSE_MAX];
+	Vec2i mCursorPos;
+
+public:
 	// 入力状態を1フレーム進める
 	void Update()
 	{
@@ -58,7 +66,4 @@ public:
 		return mKeyStates[key].lastPressed == false && mKeyStates[key].pressed == true;
 	}
 
-public:
-	State mKeyStates[KEY_MAX];
-	State mMouseStates[MOUSE_MAX];
 };

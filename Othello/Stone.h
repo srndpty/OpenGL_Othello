@@ -30,7 +30,7 @@ private:
 public:
 	/// special
 	Stone();
-	Stone(Vec2f aPos, Vec2f aSize);
+	Stone(const Vec2f& aPos, const Vec2f& aSize);
 	~Stone();
 
 	/// normal
