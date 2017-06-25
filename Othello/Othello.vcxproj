@@ -151,12 +151,27 @@
   <ItemGroup>
     <ClCompile Include="glad\glad.c" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Random.cpp" />
+    <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="Util.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Def.h" />
     <ClInclude Include="glad\glad.h" />
     <ClInclude Include="glad\khrplatform.h" />
     <ClInclude Include="GLFW\glfw3.h" />
     <ClInclude Include="GLFW\glfw3native.h" />
+    <ClInclude Include="Input.h" />
+    <ClInclude Include="linmath.h" />
+    <ClInclude Include="Loader.h" />
+    <ClInclude Include="NumDisp.h" />
+    <ClInclude Include="NumTex.h" />
+    <ClInclude Include="Random.h" />
+    <ClInclude Include="Shader.h" />
+    <ClInclude Include="Sprite.h" />
+    <ClInclude Include="Util.h" />
+    <ClInclude Include="Vec2.h" />
+    <ClInclude Include="Vec4.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
