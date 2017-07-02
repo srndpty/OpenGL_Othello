@@ -39,5 +39,6 @@ public:
 private:
 	size_t TryFlip(const Vec2i& index, const Stone::Type type); // 指定の場所に石を置いて何個ひっくり返せるか取得
 	void PlaceStone(const Vec2i& index, const Stone::Type type); // 実際に石を置き、反転もさせる
+	bool IsSpaceStone(Stone::Type type) const;
 };
 

@@ -42,7 +42,7 @@ void Game::SetStone(const Vec2i& pos)
 	Vec2i index = fixedPos / STONE_SIZE;
 
 	// すでにおいてあったら何もしない
-	if (mBoard[index.y][index.x].GetType() != Stone::Type::None)
+	if (!IsSpaceStone(mBoard[index.y][index.x].GetType()))
 	{
 		std::cout << "index (" << index.x << ", " << index.y << ") already exists.\n";
 		return;
@@ -96,7 +96,7 @@ size_t Game::TryFlip(const Vec2i& index, Stone::Type type)
 
 	// 置こうとしている箇所にすでに石が存在すれば除外
 	auto nowType = mBoard[index.y][index.x].GetType();
-	if (nowType != Stone::Type::None)
+	if (!IsSpaceStone(nowType))
 	{
 		return 0;
 	}
@@ -140,7 +140,7 @@ size_t Game::TryFlip(const Vec2i& index, Stone::Type type)
 					totalFlippedCount += flippedCount;
 					break;
 				}
-				else if (targetType == Stone::Type::None)
+				else if (IsSpaceStone(targetType))
 				{
 					// 空なら終了
 					break;
@@ -161,7 +161,7 @@ size_t Game::TryFlip(const Vec2i& index, Stone::Type type)
 // 実際に石を置き、反転もさせる
 void Game::PlaceStone(const Vec2i& index, const Stone::Type type)
 {
-	if (type == Stone::Type::None)
+	if (IsSpaceStone(type))
 	{
 		std::cout << "you tried to flip with none. this is weird.\n";
 		return;
@@ -202,7 +202,7 @@ void Game::PlaceStone(const Vec2i& index, const Stone::Type type)
 					}
 					break;
 				}
-				else if (targetType == Stone::Type::None)
+				else if (IsSpaceStone(targetType))
 				{
 					// 空なら終了
 					break;
@@ -217,6 +217,21 @@ void Game::PlaceStone(const Vec2i& index, const Stone::Type type)
 		}
 	}
 
+}
+
+bool Game::IsSpaceStone(Stone::Type type) const
+{
+	switch (type)
+	{
+	case Stone::Type::Black:
+	case Stone::Type::White:
+		return false;
+	case Stone::Type::None:
+	case Stone::Type::Available:
+		return true;
+	default:
+		return false;
+	}
 }
 
 // 現在の黒と白の数をVec2で取得
@@ -236,6 +251,7 @@ Vec2i Game::GetCurrentScore() const
 				++count.y;
 				break;
 			case Stone::Type::None:
+			case Stone::Type::Available:
 				break;
 			default:
 				std::cout << "Unknown Type\n";
@@ -272,6 +288,7 @@ void Game::ResetBoard()
 
 bool Game::CheckPlayable()
 {
+	bool isPlayable = false;
 	// init field
 	for (int i = 0; i < FIELD_SIZE.y; i++)
 	{
@@ -280,10 +297,16 @@ bool Game::CheckPlayable()
 			auto count = TryFlip({ j, i }, mTurn);
 			if (count > 0)
 			{
-				return true;
+				isPlayable = true;
+			}
+
+			auto type = mBoard[i][j].GetType();
+			if (IsSpaceStone(type))
+			{
+				mBoard[i][j].SetType(count > 0 ? Stone::Type::Available : Stone::Type::None);
 			}
 		}
 	}
 
-	return false;
+	return isPlayable;
 }

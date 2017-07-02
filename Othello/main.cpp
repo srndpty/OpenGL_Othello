@@ -187,6 +187,10 @@ void Init()
 	const auto& score = game->GetCurrentScore();
 	scoreDispBlack->Update(score.x);
 	scoreDispWhite->Update(score.y);
+
+	// 置ける場所をハイライト
+	game->CheckPlayable();
+
 	gameState = GameState::Main;
 	std::cout << "Game Start!\n";
 }

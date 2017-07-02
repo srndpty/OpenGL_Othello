@@ -14,7 +14,8 @@ public:
 	{
 		Black,
 		White,
-		None
+		None,
+		Available,
 	};
 
 	// ‰æ‘œ“à‚Ì•ªŠ„”
