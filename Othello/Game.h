@@ -10,15 +10,15 @@
 class Game
 {
 public:
-	static constexpr Vec2f BASE_POS = { -0.55f, +0.4f };
-	static constexpr Vec2i FIELD_SIZE = { 8, 8 };
-	static constexpr Vec2i TOP_LEFT_POS = { 32, 24 };
-	static constexpr Vec2i STONE_SIZE = { 48, 48 };
+	static constexpr Vec2f BASE_POS = { -0.55f, +0.4f }; // 左上のfloat座標
+	static constexpr Vec2i FIELD_SIZE = { 8, 8 }; // 升目の数
+	static constexpr Vec2i TOP_LEFT_POS = { 32, 24 }; // 左上のピクセル座標
+	static constexpr Vec2i STONE_SIZE = { 48, 48 }; // ます1つのピクセル座標
 
 private:
 	Stone mBoard[Game::FIELD_SIZE.y][Game::FIELD_SIZE.x]; // 盤面の状態
-	Stone::Type mTurn = Stone::Type::Black;
-	std::unique_ptr<Stone> mNext = std::make_unique<Stone>(Vec2f{ 0.4f, 0.0f }, Vec2f{ 0.2f, 0.2f });
+	Stone::Type mTurn = Stone::Type::Black; // 現在のターン
+	std::unique_ptr<Stone> mNext = std::make_unique<Stone>(Vec2f{ 0.4f, 0.0f }, Vec2f{ 0.2f, 0.2f }); // ネクスト表示用
 
 public:
 	/// special
@@ -33,12 +33,12 @@ public:
 	void SetStone(const Vec2i& pos);
 	Vec2i GetCurrentScore() const; // 現在の黒と白の数をVec2で取得
 	void ResetBoard(); // 初期化
-	bool CheckPlayable();
+	bool CheckPlayable(); // プレイ可能かどうかのチェック
 	void SwitchTurn(); // ターンチェンジ
 
 private:
 	size_t TryFlip(const Vec2i& index, const Stone::Type type); // 指定の場所に石を置いて何個ひっくり返せるか取得
 	void PlaceStone(const Vec2i& index, const Stone::Type type); // 実際に石を置き、反転もさせる
-	bool IsSpaceStone(Stone::Type type) const;
+	bool IsSpaceStone(Stone::Type type) const; // 空白のますかどうか
 };
 

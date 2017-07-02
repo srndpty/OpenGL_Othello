@@ -54,14 +54,14 @@ namespace
 }
 
 
-//--------------------------------------------------------------------------------
+//----------------------------------------
 // エラーコールバック
 void ErrorCallback(int error, const char* description)
 {
 	std::cerr << "Error Occured code: " << error << " desc: " << description << "\n";
 }
 
-//--------------------------------------------------------------------------------
+//----------------------------------------
 // 入力コールバック
 void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
@@ -81,7 +81,7 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 	}
 }
 
-//--------------------------------------------------------------------------------
+//----------------------------------------
 // カーソル移動コールバック
 void CursorPosCallBack(GLFWwindow* window, double xpos, double ypos)
 {
@@ -96,7 +96,7 @@ void CursorPosCallBack(GLFWwindow* window, double xpos, double ypos)
 	//std::cout << "cursor pos x: " << xpos << " y: " << ypos << "\n";
 }
 
-//--------------------------------------------------------------------------------
+//----------------------------------------
 // マウスクリックコールバック
 void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
 {
@@ -112,25 +112,7 @@ void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
 	//}
 }
 
-#ifdef _MSC_VER
-#include <direct.h>
-#define GetCurrentDir _getcwd
-#else
-#include <unistd.h>
-#define GetCurrentDir getcwd
-#endif
-
-//--------------------------------------------------------------------------------
-// 作業ディレクトリの取得
-std::string GetCurrentWorkingDir(void)
-{
-	char buff[FILENAME_MAX];
-	GetCurrentDir(buff, FILENAME_MAX);
-	std::string current_working_dir(buff);
-	return current_working_dir;
-}
-
-//--------------------------------------------------------------------------------
+//----------------------------------------
 // 描画
 void Draw()
 {
@@ -146,7 +128,7 @@ void Draw()
 
 }
 
-//--------------------------------------------------------------------------------
+//----------------------------------------
 // ライブラリの初期化
 int LibInit()
 {
@@ -180,6 +162,7 @@ int LibInit()
 	return 0;
 }
 
+//----------------------------------------
 // 初期化
 void Init()
 {
@@ -195,6 +178,7 @@ void Init()
 	std::cout << "Game Start!\n";
 }
 
+//----------------------------------------
 // メインの処理
 void GameMain()
 {
@@ -244,9 +228,9 @@ void GameMain()
 	{
 		gameState = GameState::Init;
 	}
-
 }
 
+//----------------------------------------
 // ゲームオーバー
 void GameOver()
 {
@@ -256,7 +240,7 @@ void GameOver()
 	}
 }
 
-//--------------------------------------------------------------------------------
+//----------------------------------------
 // ENTRY POINT
 int main()
 {

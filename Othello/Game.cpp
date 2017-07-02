@@ -2,16 +2,22 @@
 
 
 
+//----------------------------------------
+// ctor
 Game::Game()
 {
 	ResetBoard();
 }
 
 
+//----------------------------------------
+// dtor
 Game::~Game()
 {
 }
 
+//----------------------------------------
+// 描画
 void Game::Draw(const int id)
 {
 	// 盤面
@@ -25,9 +31,10 @@ void Game::Draw(const int id)
 
 	// Next
 	mNext->Draw(id);
-
 }
 
+//----------------------------------------
+// 石の設定
 void Game::SetStone(const Vec2i& pos)
 {
 	// 範囲外なら無効
@@ -65,6 +72,7 @@ void Game::SetStone(const Vec2i& pos)
 	}
 }
 
+//----------------------------------------
 // ターンチェンジ
 void Game::SwitchTurn()
 {
@@ -88,6 +96,7 @@ void Game::SwitchTurn()
 	mNext->SetType(mTurn);
 }
 
+//----------------------------------------
 // 指定の場所に石を置いて何個ひっくり返せるか取得
 size_t Game::TryFlip(const Vec2i& index, Stone::Type type)
 {
@@ -158,6 +167,7 @@ size_t Game::TryFlip(const Vec2i& index, Stone::Type type)
 	return totalFlippedCount;
 }
 
+//----------------------------------------
 // 実際に石を置き、反転もさせる
 void Game::PlaceStone(const Vec2i& index, const Stone::Type type)
 {
@@ -219,6 +229,8 @@ void Game::PlaceStone(const Vec2i& index, const Stone::Type type)
 
 }
 
+//----------------------------------------
+// 空のますかどうか
 bool Game::IsSpaceStone(Stone::Type type) const
 {
 	switch (type)
@@ -234,6 +246,7 @@ bool Game::IsSpaceStone(Stone::Type type) const
 	}
 }
 
+//----------------------------------------
 // 現在の黒と白の数をVec2で取得
 Vec2i Game::GetCurrentScore() const
 {
@@ -262,6 +275,8 @@ Vec2i Game::GetCurrentScore() const
 	return count;
 }
 
+//----------------------------------------
+// 盤面の初期化
 void Game::ResetBoard()
 {
 	// init field
@@ -286,20 +301,24 @@ void Game::ResetBoard()
 	mNext->SetType(Stone::Type::Black);
 }
 
+//----------------------------------------
+// プレイ可能かどうかの取得
 bool Game::CheckPlayable()
 {
 	bool isPlayable = false;
-	// init field
+
 	for (int i = 0; i < FIELD_SIZE.y; i++)
 	{
 		for (int j = 0; j < FIELD_SIZE.x; j++)
 		{
+			// すべてのマスに置いてみてチェック
 			auto count = TryFlip({ j, i }, mTurn);
 			if (count > 0)
 			{
 				isPlayable = true;
 			}
 
+			// ハイライトの更新
 			auto type = mBoard[i][j].GetType();
 			if (IsSpaceStone(type))
 			{

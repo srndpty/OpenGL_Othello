@@ -81,7 +81,11 @@
     <ClInclude Include="Def.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="Stone.h" />
-    <ClInclude Include="Game.h" />
+    <ClInclude Include="Stone.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
