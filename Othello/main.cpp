@@ -33,7 +33,7 @@ namespace
 		Gameover
 	};
 
-	const char* GAME_TITLE = "Reversi Game";
+	const char* GAME_TITLE = "Reversi";
 
 	// window
 	GLFWwindow* window = nullptr;
