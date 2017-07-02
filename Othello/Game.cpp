@@ -4,20 +4,7 @@
 
 Game::Game()
 {
-	// init field
-	for (size_t i = 0; i < FIELD_SIZE.y; i++)
-	{
-		for (size_t j = 0; j < FIELD_SIZE.x; j++)
-		{
-			mBoard[i][j] = Stone(BASE_POS + Vec2f(Stone::SIZE.x / 2 * j, -Stone::SIZE.y / 2 * i), Stone::SIZE);
-		}
-	}
-
-	// 最初の位置
-	mBoard[3][3].SetType(Stone::Type::White);
-	mBoard[3][4].SetType(Stone::Type::Black);
-	mBoard[4][3].SetType(Stone::Type::Black);
-	mBoard[4][4].SetType(Stone::Type::White);
+	ResetBoard();
 }
 
 
@@ -72,7 +59,6 @@ void Game::SetStone(const Vec2i& pos)
 	{
 		std::cout << "you tried to place stone to the invalid position.\n";
 	}
-
 }
 
 // ターンチェンジ
@@ -101,6 +87,13 @@ size_t Game::TryFlip(const Vec2i& index, Stone::Type type)
 	Stone::Type attackerType = type;
 	size_t totalFlippedCount = 0;
 
+	// 置こうとしている箇所にすでに石が存在すれば除外
+	auto nowType = mBoard[index.y][index.x].GetType();
+	if (nowType != Stone::Type::None)
+	{
+		return 0;
+	}
+
 	// 8方向へ
 	for (int y = -1; y <= 1; y++)
 	{
@@ -108,6 +101,8 @@ size_t Game::TryFlip(const Vec2i& index, Stone::Type type)
 		{
 			// 自分のタイプに当たるまで反転させ続ける
 			Vec2i target = index;
+
+
 			while (true)
 			{
 				// 進ませる
@@ -242,4 +237,43 @@ Vec2i Game::GetCurrentScore() const
 		}
 	}
 	return count;
+}
+
+void Game::ResetBoard()
+{
+	// init field
+	for (size_t i = 0; i < FIELD_SIZE.y; i++)
+	{
+		for (size_t j = 0; j < FIELD_SIZE.x; j++)
+		{
+			mBoard[i][j] = Stone(BASE_POS + Vec2f(Stone::SIZE.x / 2 * j, -Stone::SIZE.y / 2 * i), Stone::SIZE);
+		}
+	}
+
+	// 最初の位置
+	mBoard[3][3].SetType(Stone::Type::White);
+	mBoard[3][4].SetType(Stone::Type::Black);
+	mBoard[4][3].SetType(Stone::Type::Black);
+	mBoard[4][4].SetType(Stone::Type::White);
+
+	// ターン設定
+	mTurn = Stone::Type::Black;
+}
+
+bool Game::CheckPlayable()
+{
+	// init field
+	for (int i = 0; i < FIELD_SIZE.y; i++)
+	{
+		for (int j = 0; j < FIELD_SIZE.x; j++)
+		{
+			auto count = TryFlip({ j, i }, mTurn);
+			if (count > 0)
+			{
+				return true;
+			}
+		}
+	}
+
+	return false;
 }

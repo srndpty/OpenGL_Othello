@@ -28,11 +28,13 @@ public:
 
 	// 指定の座標上にあるところに石を置く
 	void SetStone(const Vec2i& pos);
+	Vec2i GetCurrentScore() const; // 現在の黒と白の数をVec2で取得
+	void ResetBoard(); // 初期化
+	bool CheckPlayable();
+	void SwitchTurn(); // ターンチェンジ
 
 private:
-	void SwitchTurn(); // ターンチェンジ
 	size_t TryFlip(const Vec2i& index, const Stone::Type type); // 指定の場所に石を置いて何個ひっくり返せるか取得
 	void PlaceStone(const Vec2i& index, const Stone::Type type); // 実際に石を置き、反転もさせる
-	Vec2i GetCurrentScore() const; // 現在の黒と白の数をVec2で取得
 };
 

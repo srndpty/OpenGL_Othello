@@ -26,12 +26,20 @@ Random random;
 
 namespace
 {
-	const char* GAME_TITLE = "Othello Game";
+	enum class GameState
+	{
+		Init,
+		Main,
+		Gameover
+	};
+
+	const char* GAME_TITLE = "Reversi Game";
 
 	// window
 	GLFWwindow* window = nullptr;
 
 	// main game
+	GameState gameState = GameState::Init;
 	std::unique_ptr<Game> game;
 	std::unique_ptr<Stone> board[Game::FIELD_SIZE.y][Game::FIELD_SIZE.x];
 
@@ -72,6 +80,8 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 	}
 }
 
+//--------------------------------------------------------------------------------
+// カーソル移動コールバック
 void CursorPosCallBack(GLFWwindow* window, double xpos, double ypos)
 {
 	static double pastx = 0, pasty = 0;
@@ -85,6 +95,8 @@ void CursorPosCallBack(GLFWwindow* window, double xpos, double ypos)
 	//std::cout << "cursor pos x: " << xpos << " y: " << ypos << "\n";
 }
 
+//--------------------------------------------------------------------------------
+// マウスクリックコールバック
 void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
 {
 	if (action == GLFW_PRESS)
@@ -116,23 +128,6 @@ std::string GetCurrentWorkingDir(void)
 	std::string current_working_dir(buff);
 	return current_working_dir;
 }
-
-//--------------------------------------------------------------------------------
-// 入力からの処理
-void ProcessInputs()
-{
-	// 左右移動
-	//if (input.GetButtomDown(GLFW_KEY_A))
-	//{
-	//	// 左
-	//	if (game->IsMovable(*current, -1, 0))
-	//	{
-	//		current->Move({ -1, 0 });
-	//	}
-	//}
-}
-
-
 
 //--------------------------------------------------------------------------------
 // 描画
@@ -181,6 +176,66 @@ int LibInit()
 	return 0;
 }
 
+// 初期化
+void Init()
+{
+	game->ResetBoard();
+	gameState = GameState::Main;
+	std::cout << "Game Start!\n";
+}
+
+// メインの処理
+void GameMain()
+{
+	// クリックしたら
+	if (input.mMouseStates[GLFW_MOUSE_BUTTON_LEFT].pressed)
+	{
+		// 石を置く
+		game->SetStone(input.mCursorPos);
+
+		// 置けなければパス
+		if (!game->CheckPlayable())
+		{
+			std::cout << "Unplayable. Turn changed.\n";
+			game->SwitchTurn();
+			// どちらも置けなければそこでゲームオーバー
+			if (!game->CheckPlayable())
+			{
+				const auto& score = game->GetCurrentScore();
+				std::cout << "GAMEOVER! score - black: " << score.x << " white: " << score.y << "\n";
+
+				if (score.x > score.y)
+				{
+					std::cout << "Black Win!\n";
+				}
+				else if (score.y > score.x)
+				{
+					std::cout << "White Win!\n";
+				}
+				else
+				{
+					std::cout << "Draw game.\n";
+				}
+
+				std::cout << "Press R to retry.\n";
+				//std::cout << "Both Unplayable. Game is over.\n";
+				gameState = GameState::Gameover;
+				return;
+			}
+		}
+	}
+
+}
+
+// ゲームオーバー
+void GameOver()
+{
+	if (input.mKeyStates[GLFW_KEY_R].pressed)
+	{
+		gameState = GameState::Init;
+	}
+}
+
 //--------------------------------------------------------------------------------
 // ENTRY POINT
 int main()
@@ -204,24 +259,23 @@ int main()
 	while (!glfwWindowShouldClose(window))
 	{
 		// -- 計算 --
-		scoreDisp->Update(scorePoint);
-
-		// 石を置く
-		if (input.mMouseStates[GLFW_MOUSE_BUTTON_LEFT].pressed)
+		switch (gameState)
 		{
-			game->SetStone(input.mCursorPos);
+		case GameState::Init:
+			Init();
+			break;
+		case GameState::Main:
+			GameMain();
+			break;
+		case GameState::Gameover:
+			GameOver();
+			break;
+		default:
+			std::cout << "unknown state\n";
+			break;
 		}
 
-		//if (game->IsGameOver())
-		//{
-		//	ProcessGameover();
-		//}
-		//else
-		{
-			// 全体処理
-			//game->Process();
-			ProcessInputs();
-		}
+		//scoreDisp->Update(scorePoint);
 
 		input.Update();
 		input.ResetNow();
