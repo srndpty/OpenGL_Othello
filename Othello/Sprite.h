@@ -24,8 +24,8 @@ public:
 	// default ctor
 	Sprite()
 	{
-		std::cout << "default constructor of Sprite called. this shouldn't be happened!\n";
-		SHOULD_NOT_REACH_HERE();
+		//std::cout << "default constructor of Sprite called. this shouldn't be happened!\n";
+		//SHOULD_NOT_REACH_HERE();
 	}
 
 	Sprite(const Vec2f& aPos, const Vec2f& aSize)

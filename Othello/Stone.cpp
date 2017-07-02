@@ -31,4 +31,24 @@ void Stone::SetType(const Type type)
 	uv[1] = { 1.0f / HORIZONTAL_MAX * (static_cast<int>(type) + 1), 1.0f };
 	uv[2] = { 1.0f / HORIZONTAL_MAX * (static_cast<int>(type) + 1), 0.0f };
 	uv[3] = { 1.0f / HORIZONTAL_MAX * (static_cast<int>(type) + 0), 0.0f };
+	mType = type;
+}
+
+Stone::Type Stone::GetType() const
+{
+	return mType;
+}
+
+Stone::Type Stone::GetOpponentType() const
+{
+	switch (mType)
+	{
+	case Stone::Type::Black:
+		return Stone::Type::White;
+	case Stone::Type::White:
+		return Stone::Type::Black;
+	case Stone::Type::None:
+	default:
+		return Stone::Type::None;
+	}
 }

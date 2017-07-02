@@ -28,13 +28,18 @@ namespace
 {
 	const char* GAME_TITLE = "Othello Game";
 
+	// window
 	GLFWwindow* window = nullptr;
-	auto scoreDisp = std::make_unique<NumDisp<4>>(Vec2f{ +0.5f, 0.4f });
-	auto stone = std::make_unique<Stone>(Vec2f{ 0, 0 }, Vec2f{ 0.2f, 0.2f });
-	std::unique_ptr<Stone> board[Game::FIELD_SIZE.y][Game::FIELD_SIZE.x];
+
+	// main game
 	std::unique_ptr<Game> game;
+	std::unique_ptr<Stone> board[Game::FIELD_SIZE.y][Game::FIELD_SIZE.x];
+
+	auto scoreDisp = std::make_unique<NumDisp<4>>(Vec2f{ +0.5f, 0.4f });
 	bool firstGameOver = true;
 	int scorePoint = 0;
+
+	// texture ids
 	GLuint stoneId;
 	GLuint numId;
 }
@@ -75,8 +80,9 @@ void CursorPosCallBack(GLFWwindow* window, double xpos, double ypos)
 		return;
 	}
 
+	// カーソル位置更新
 	input.mCursorPos = { static_cast<int>(xpos), static_cast<int>(ypos) };
-	std::cout << "cursor pos x: " << xpos << " y: " << ypos << "\n";
+	//std::cout << "cursor pos x: " << xpos << " y: " << ypos << "\n";
 }
 
 void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
@@ -199,6 +205,13 @@ int main()
 	{
 		// -- 計算 --
 		scoreDisp->Update(scorePoint);
+
+		// 石を置く
+		if (input.mMouseStates[GLFW_MOUSE_BUTTON_LEFT].pressed)
+		{
+			game->SetStone(input.mCursorPos);
+		}
+
 		//if (game->IsGameOver())
 		//{
 		//	ProcessGameover();

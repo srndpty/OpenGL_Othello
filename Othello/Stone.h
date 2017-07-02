@@ -24,7 +24,7 @@ public:
 	static constexpr Vec2f SIZE = { SIDE_LENGTH, SIDE_LENGTH };
 
 private:
-	Type type; // í—Ş
+	Type mType; // í—Ş
 
 
 public:
@@ -35,5 +35,7 @@ public:
 
 	/// normal
 	void SetType(const Type type); // í—Ş‚Ìİ’è
+	Type GetType() const;
+	Type GetOpponentType() const;
 };
 
