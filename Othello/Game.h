@@ -5,6 +5,8 @@
 #include "Vec2.h"
 #include "Stone.h"
 
+#include <memory>
+
 class Game
 {
 public:
@@ -16,6 +18,7 @@ public:
 private:
 	Stone mBoard[Game::FIELD_SIZE.y][Game::FIELD_SIZE.x]; // î’ñ ÇÃèÛë‘
 	Stone::Type mTurn = Stone::Type::Black;
+	std::unique_ptr<Stone> mNext = std::make_unique<Stone>(Vec2f{ 0.4f, 0.0f }, Vec2f{ 0.2f, 0.2f });
 
 public:
 	/// special

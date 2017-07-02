@@ -13,21 +13,10 @@ public:
 
 public:
 	NumTex(Vec2f aPos, Vec2f aSize)
+		: Sprite(aPos, aSize)
 	{
 		static_assert(VertsCount == 4, "VertsCount == 4");
-		vertex[0] = geom[0] = { -aSize.x / 2, +aSize.y / 2 };
-		vertex[1] = geom[1] = { +aSize.x / 2, +aSize.y / 2 };
-		vertex[2] = geom[2] = { +aSize.x / 2, -aSize.y / 2 };
-		vertex[3] = geom[3] = { -aSize.x / 2, -aSize.y / 2 };
 		RefreshUv(0);
-		pos = aPos;
-		size = aSize * 0.5f;
-		// ”½‰f
-		for (size_t i = 0; i < VertsCount; i++)
-		{
-			geom[i].x = pos.x + vertex[i].x;
-			geom[i].y = pos.y + vertex[i].y;
-		}
 	}
 
 	~NumTex()

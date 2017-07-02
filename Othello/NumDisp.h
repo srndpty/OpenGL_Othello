@@ -43,7 +43,7 @@ public:
 	{
 		for (uint32_t i = 0; i < DIGITS; i++)
 		{
-			mTex[i] = std::make_unique<NumTex<>>(Vec2f{ +0.5f - i * aSize.x / 2, 0.4f }, aSize);
+			mTex[i] = std::make_unique<NumTex<>>(Vec2f{ aPos.x - i * aSize.x / 2, aPos.y }, aSize);
 		}
 	}
 

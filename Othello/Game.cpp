@@ -14,6 +14,7 @@ Game::~Game()
 
 void Game::Draw(const int id)
 {
+	// 盤面
 	for (size_t i = 0; i < Game::FIELD_SIZE.y; i++)
 	{
 		for (size_t j = 0; j < Game::FIELD_SIZE.x; j++)
@@ -21,6 +22,9 @@ void Game::Draw(const int id)
 			mBoard[i][j].Draw(id);
 		}
 	}
+
+	// Next
+	mNext->Draw(id);
 
 }
 
@@ -49,8 +53,8 @@ void Game::SetStone(const Vec2i& pos)
 	{
 		PlaceStone(index, mTurn);
 		const Vec2i& score = GetCurrentScore();
-		std::cout << "stone set to (" << index.x << ", " << index.y << ") successfully.\n"
-			<< "score - black: " << score.x << " white: " << score.y << "\n";
+		std::cout << "stone set to (" << index.x << ", " << index.y << ") successfully.\n";
+			//<< "score - black: " << score.x << " white: " << score.y << "\n";
 
 		// ターン終了
 		SwitchTurn();
@@ -79,6 +83,9 @@ void Game::SwitchTurn()
 		std::cout << "Unknown turn.\n";
 		break;
 	}
+
+	// ネクストの設定
+	mNext->SetType(mTurn);
 }
 
 // 指定の場所に石を置いて何個ひっくり返せるか取得
@@ -258,6 +265,9 @@ void Game::ResetBoard()
 
 	// ターン設定
 	mTurn = Stone::Type::Black;
+
+	// ネクスト
+	mNext->SetType(Stone::Type::Black);
 }
 
 bool Game::CheckPlayable()

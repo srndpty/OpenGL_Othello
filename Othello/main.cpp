@@ -43,7 +43,8 @@ namespace
 	std::unique_ptr<Game> game;
 	std::unique_ptr<Stone> board[Game::FIELD_SIZE.y][Game::FIELD_SIZE.x];
 
-	auto scoreDisp = std::make_unique<NumDisp<4>>(Vec2f{ +0.5f, 0.4f });
+	auto scoreDispBlack = std::make_unique<NumDisp<2>>(Vec2f{ +0.5f, 0.4f });
+	auto scoreDispWhite = std::make_unique<NumDisp<2>>(Vec2f{ +0.5f, 0.2f });
 	bool firstGameOver = true;
 	int scorePoint = 0;
 
@@ -140,6 +141,9 @@ void Draw()
 
 	game->Draw(stoneId);
 
+	scoreDispBlack->Draw(numId);
+	scoreDispWhite->Draw(numId);
+
 }
 
 //--------------------------------------------------------------------------------
@@ -180,6 +184,9 @@ int LibInit()
 void Init()
 {
 	game->ResetBoard();
+	const auto& score = game->GetCurrentScore();
+	scoreDispBlack->Update(score.x);
+	scoreDispWhite->Update(score.y);
 	gameState = GameState::Main;
 	std::cout << "Game Start!\n";
 }
@@ -193,6 +200,11 @@ void GameMain()
 		// 石を置く
 		game->SetStone(input.mCursorPos);
 
+		const auto& score = game->GetCurrentScore();
+		scoreDispBlack->Update(score.x);
+		scoreDispWhite->Update(score.y);
+
+
 		// 置けなければパス
 		if (!game->CheckPlayable())
 		{
@@ -201,8 +213,7 @@ void GameMain()
 			// どちらも置けなければそこでゲームオーバー
 			if (!game->CheckPlayable())
 			{
-				const auto& score = game->GetCurrentScore();
-				std::cout << "GAMEOVER! score - black: " << score.x << " white: " << score.y << "\n";
+				std::cout << "Game is over. score - black: " << score.x << " white: " << score.y << "\n";
 
 				if (score.x > score.y)
 				{
@@ -218,7 +229,6 @@ void GameMain()
 				}
 
 				std::cout << "Press R to retry.\n";
-				//std::cout << "Both Unplayable. Game is over.\n";
 				gameState = GameState::Gameover;
 				return;
 			}
@@ -274,8 +284,6 @@ int main()
 			std::cout << "unknown state\n";
 			break;
 		}
-
-		//scoreDisp->Update(scorePoint);
 
 		input.Update();
 		input.ResetNow();
