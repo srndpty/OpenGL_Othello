@@ -239,6 +239,12 @@ void GameMain()
 		}
 	}
 
+	// ゲーム中もRで最初から
+	if (input.mKeyStates[GLFW_KEY_R].pressed)
+	{
+		gameState = GameState::Init;
+	}
+
 }
 
 // ゲームオーバー

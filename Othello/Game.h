@@ -10,10 +10,10 @@
 class Game
 {
 public:
-	static constexpr Vec2f BASE_POS = { -0.5f, +0.3f };
+	static constexpr Vec2f BASE_POS = { -0.55f, +0.4f };
 	static constexpr Vec2i FIELD_SIZE = { 8, 8 };
-	static constexpr Vec2i TOP_LEFT_POS = { 62, 78 };
-	static constexpr Vec2i STONE_SIZE = { 36, 36 };
+	static constexpr Vec2i TOP_LEFT_POS = { 32, 24 };
+	static constexpr Vec2i STONE_SIZE = { 48, 48 };
 
 private:
 	Stone mBoard[Game::FIELD_SIZE.y][Game::FIELD_SIZE.x]; // î’ñ ÇÃèÛë‘
